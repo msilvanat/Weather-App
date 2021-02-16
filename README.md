@@ -63,7 +63,7 @@ npm i axios colors dotenv inquirer
 node index.js 
 ```
 
-4.- Also, you have to create a token key from the maxbop page https://www.mapbox.com/, and another from he open weather page https://www.mapbox.com/ .
+4.- Also, you have to create a token key from the maxbop page https://www.mapbox.com/, and another from the open weather page https://www.mapbox.com/ .
 
 ##  Author 
 - [@msilvanat](https://github.com/msilvanat)
