@@ -1,23 +1,23 @@
 const inquirer = require('inquirer');
 require('colors');
 
-const preguntas = [
+const questions = [
     {
         type: 'list',
-        name: 'opcion',
-        message: 'Qué desea hacer?',
+        name: 'option',
+        message: 'What do you want to do?',
         choices: [
             {
                 value: 1,
-                name: `${'1.'.green} Buscar ciudad`
+                name: `${'1.'.green} Search city`
             },
             {
                 value: 2,
-                name: `${'2.'.green} Historial`
+                name: `${'2.'.green} Search history`
             },
             {
                 value: 0,
-                name: `${'0.'.green} Salir`
+                name: `${'0.'.green} Go out`
             },
             
         ]
@@ -27,20 +27,20 @@ const preguntas = [
 const inquirerMenu = async () => {
     console.clear();
     console.log('=============='.green);
-    console.log(' Seleccione una opción'.white);
+    console.log(' Choose an option'.white);
     console.log('=============\n'.green);
 
-    const { opcion } = await inquirer.prompt(preguntas);
-    return opcion;
+    const { option } = await inquirer.prompt(questions);
+    return option;
 
 }
 
-const pausa = async () => {
+const stop = async () => {
     const question = [
         {
             type: 'input',
             name: 'enter',
-            message: `Presione ${'enter'.green} para continuar`
+            message: `Press ${'enter'.green} to continue`
 
         }
     ];
@@ -58,7 +58,7 @@ const readInput = async (message) => {
             message,
             validate(value) {
                 if (value.length === 0) {
-                    return 'Por favor ingrese un valor';
+                    return 'Please enter a value';
                 }
                 return true;
             }
@@ -69,38 +69,38 @@ const readInput = async (message) => {
     return desc;
 }
 
-const listarLugares = async( lugares = []) => {
+const listPlaces = async( places = []) => {
 
-    const choices = lugares.map( (lugar, i) => {
+    const choices = places.map( (place, i) => {
 
         const idx = `${i + 1}.`.green;
         
         return {
-            value: lugar.id,
-            name: `${idx} ${lugar.nombre}`
+            value: place.id,
+            name: `${idx} ${place.nombre}`
 
         }
     });
 
     choices.unshift({
         value: '0',
-        name: '0.'.green + ' Cancelar'
+        name: '0.'.green + ' Cancel'
     });
 
-    const preguntas = [
+    const questions = [
         {
             type: 'list',
             name: 'id',
-            message: 'Seleccione lugar:',
+            message: 'Choose a place:',
             choices
 
         }
     ]
-    const { id } = await inquirer.prompt(preguntas);
+    const { id } = await inquirer.prompt(questions);
     return id;
 }
 
-const confirmar = async (message) => {
+const confirm = async (message) => {
     const question = [
         {
             type: 'confirm',
@@ -113,39 +113,36 @@ const confirmar = async (message) => {
     return ok;
 }
 
-const mostrarListadoChecklist = async ( tareas = [] ) => {
-    const choices = tareas.map( (tarea, i) => {
+const showListChecklist = async ( tasks = [] ) => {
+    const choices = tasks.map( (task, i) => {
         const idx = `${i + 1}.`.green;
 
         return {
-            value: tarea.id,
-            name: `${idx} ${tarea.desc}`,
-            checked: ( tarea.completadoEn ) ? true : false
+            value: task.id,
+            name: `${idx} ${task.desc}`,
+            checked: ( task.completeIn ) ? true : false
 
         }
     });
 
-
-    const pregunta = [
+    const oneQuestion = [
         {
             type: 'checkbox',
             name: 'ids',
-            message: 'Selecciones',
+            message: 'Selections',
             choices
 
         }
     ]
-    const { ids } = await inquirer.prompt(pregunta);
+    const { ids } = await inquirer.prompt(oneQuestion);
     return ids;
 }
 
-
-
 module.exports = {
     inquirerMenu,
-    pausa,
+    stop,
     readInput,
-    listarLugares,
-    confirmar,
-    mostrarListadoChecklist
+    listPlaces,
+    confirm,
+    showListChecklist
 }

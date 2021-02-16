@@ -2,33 +2,31 @@ const fs = require('fs');
 
 const axios = require('axios');
 
-class Busquedas {
-    historial = [];
+class Searches {
+    record = [];
     dbPath = './db/database.json';
 
     constructor() {
-        this.leerDB();
+        this.readDB();
     }
 
-    //Capitalizar cada palabra
-    get historialCapitalizado() {
-        return this.historial.map( lugar => {
+    //Capitalize every word
+    get capitalizedHistory() {
+        return this.record.map( place => {
 
-            let palabras = lugar.split(' ');
-            palabras = palabras.map( p => p[0].toUpperCase() + p.substring(1) );
+            let words = place.split(' ');
+            words = words.map( p => p[0].toUpperCase() + p.substring(1) );
 
-            return palabras.join(' ')
+            return words.join(' ')
 
         })
     }
-
 
     get paramsMapbox() {
         return {
             'access_token': process.env.MAPBOX_KEY,
             'limit': 5,
             'language': 'en'
-
         }
     }
 
@@ -40,33 +38,31 @@ class Busquedas {
         }
     }
 
-    async ciudad(lugar = '') {
+    async city(place = '') {
 
         try {
-            //peticion http
+            //HTTP request
 
             const intance = axios.create({
-                baseURL: `https://api.mapbox.com/geocoding/v5/mapbox.places/${ lugar }.json`,
+                baseURL: `https://api.mapbox.com/geocoding/v5/mapbox.places/${ place }.json`,
                 params: this.paramsMapbox
             });
 
             const resp = await intance.get();
 
-            return resp.data.features.map(lugar => ({
-                id: lugar.id,
-                nombre: lugar.place_name,
-                lng: lugar.center[0],
-                lat: lugar.center[1],
+            return resp.data.features.map(place => ({
+                id: place.id,
+                nombre: place.place_name,
+                lng: place.center[0],
+                lat: place.center[1],
             }));
-
-
 
         } catch (error) {
             return [];
         }
     }
 
-    async climaLugar(lat, lon) {
+    async weatherPlace(lat, lon) {
 
         try {
 
@@ -93,42 +89,40 @@ class Busquedas {
 
     }
 
-    agregarHistorial( lugar = '' ) {
+    addHistory( place = '' ) {
 
-        if( this.historial.includes( lugar.toLocaleLowerCase() ) ){
+        if( this.record.includes( place.toLocaleLowerCase() ) ){
             return;
         }
-        this.historial = this.historial.splice(0,5);
+        this.record = this.record.splice(0,5);
 
-        this.historial.unshift( lugar.toLocaleLowerCase() );
+        this.record.unshift( place.toLocaleLowerCase() );
 
-        // Grabar en DB
-        this.guardarDB();
+        // Save in DB
+        this.saveDB();
     }
 
-
-    guardarDB() {
+    saveDB() {
 
         const payload = {
-            historial: this.historial
+            record: this.record
         };
 
         fs.writeFileSync( this.dbPath, JSON.stringify( payload ) );
 
     }
 
-    leerDB() {
+    readDB() {
 
         if( !fs.existsSync( this.dbPath ) ) return;
         
         const info = fs.readFileSync( this.dbPath, { encoding: 'utf-8' });
         const data = JSON.parse( info );
 
-        this.historial = data.historial;
+        this.record = data.record;
 
     }
 
-
 }
 
-module.exports = Busquedas;
+module.exports = Searches;
