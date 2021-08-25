@@ -11,7 +11,6 @@ const main = async () => {
     let opt;
     do {
         opt = await inquirerMenu();
-
         switch (opt) {
             case 1:
                 //Show message
@@ -32,7 +31,6 @@ const main = async () => {
                 //Weather
                 const climate = await searches.weatherPlace( placeSel.lat, placeSel.lng );
                 
-
                 //Show results
                 console.clear();
                 console.log('\nInformation of the city\n'.green);
@@ -51,13 +49,10 @@ const main = async () => {
                         const idx = `${ i + 1 }.`.green;
                         console.log( `${ idx } ${ place } ` );
                     })
-   
                break;
         }
 
-
         if (opt !== 0) await stop();
-
 
     } while (opt !== 0)
 }

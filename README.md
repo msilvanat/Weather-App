@@ -60,7 +60,7 @@ npm i axios colors dotenv inquirer
 
 3.- To run the api, run this on the terminal
 ```
-node index.js 
+npm run start
 ```
 
 4.- Also, you have to create a token key from the maxbop page https://www.mapbox.com/, and another from the open weather page https://www.mapbox.com/ .

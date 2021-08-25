@@ -19,7 +19,6 @@ const questions = [
                 value: 0,
                 name: `${'0.'.green} Go out`
             },
-            
         ]
     }
 ];
@@ -32,7 +31,6 @@ const inquirerMenu = async () => {
 
     const { option } = await inquirer.prompt(questions);
     return option;
-
 }
 
 const stop = async () => {
@@ -41,12 +39,9 @@ const stop = async () => {
             type: 'input',
             name: 'enter',
             message: `Press ${'enter'.green} to continue`
-
         }
     ];
-
     console.log('\n');
-
     await inquirer.prompt(question);
 }
 
@@ -70,18 +65,13 @@ const readInput = async (message) => {
 }
 
 const listPlaces = async( places = []) => {
-
     const choices = places.map( (place, i) => {
-
         const idx = `${i + 1}.`.green;
-        
         return {
             value: place.id,
             name: `${idx} ${place.nombre}`
-
         }
     });
-
     choices.unshift({
         value: '0',
         name: '0.'.green + ' Cancel'
@@ -93,7 +83,6 @@ const listPlaces = async( places = []) => {
             name: 'id',
             message: 'Choose a place:',
             choices
-
         }
     ]
     const { id } = await inquirer.prompt(questions);
@@ -116,12 +105,10 @@ const confirm = async (message) => {
 const showListChecklist = async ( tasks = [] ) => {
     const choices = tasks.map( (task, i) => {
         const idx = `${i + 1}.`.green;
-
         return {
             value: task.id,
             name: `${idx} ${task.desc}`,
             checked: ( task.completeIn ) ? true : false
-
         }
     });
 
@@ -131,7 +118,6 @@ const showListChecklist = async ( tasks = [] ) => {
             name: 'ids',
             message: 'Selections',
             choices
-
         }
     ]
     const { ids } = await inquirer.prompt(oneQuestion);
